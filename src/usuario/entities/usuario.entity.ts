@@ -17,11 +17,11 @@ export class Usuario {
   @Column()
   private contraseña: string;
 
-  @OneToMany(() => Comentario, comentario => comentario.usuario)
-  comentarios: Comentario[];
+  @OneToMany(() => Comentario, comentario => comentario.usuario_id)
+  comentario: Comentario[];
 
-  @OneToMany(() => Puntuacion, puntuacion => puntuacion.usuario) 
-  puntuaciones: Puntuacion[]; 
+  @OneToMany(() => Puntuacion, puntuacion => puntuacion.usuario_id) 
+  puntuacion: Puntuacion[]; 
 
   @ManyToMany(() => Genero)
   @JoinTable()

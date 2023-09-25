@@ -4,9 +4,11 @@ import { Repository, FindOneOptions } from 'typeorm';
 import { Puntuacion } from './entities/puntuacion.entity';
 import { CreatePuntuacionDto } from './dto/create-puntuacion.dto';
 import { UsuarioService } from 'src/usuario/usuario.service';
+
 @Injectable()
 export class PuntuacionService {
   constructor(
+
     @InjectRepository(Puntuacion)
     private readonly PuntuacionRepository: Repository<Puntuacion>,
     private UsuarioService: UsuarioService,
@@ -15,12 +17,12 @@ export class PuntuacionService {
 
 
   async create(createPuntuacionDto: CreatePuntuacionDto) {
-    const usuario = await this.UsuarioService.getUsuarioById(createPuntuacionDto.idUsuario);
+    const usuario = await this.UsuarioService.getUsuarioById(createPuntuacionDto.usuario_id);
   
     if (!usuario) {
       throw new NotFoundException("El usuario no existe");
     }
-  //copiada de chatGPT para que compile
+  //esta linea de codigo fue copiada de chatGPT para que compile 
     const nuevoPuntuacion = new Puntuacion(usuario, createPuntuacionDto.puntuacion, createPuntuacionDto.id_pelicula);
   
     return this.PuntuacionRepository.save(nuevoPuntuacion);

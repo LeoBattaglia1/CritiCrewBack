@@ -1,8 +1,8 @@
-import { Usuario } from "../../usuario/entities/usuario.entity";
+
 
 export class CreateComentarioDto {
-    readonly id: number;
-    readonly usuario : Usuario;
+
+    readonly usuario_id : number;
     readonly comentario : string;
     readonly id_pelicula : number;
 }

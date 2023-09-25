@@ -6,17 +6,17 @@ export class Comentario {
   @PrimaryGeneratedColumn()
   private id: number;
 
-  @ManyToOne(() => Usuario, usuario => usuario.comentarios)
-  public usuario: Usuario;
+  @ManyToOne(() => Usuario, usuario_id => usuario_id.comentario)
+  public usuario_id: Usuario;
 
   @Column()
   private comentario: string;
 
-  @Column({ nullable: true })
+  @Column()
   private id_pelicula: number;
 
-  constructor(usuario: Usuario, comentario: string, id_pelicula?: number) {
-    this.usuario = usuario;
+  constructor(usuario_id: Usuario, comentario: string, id_pelicula: number) {
+    this.usuario_id = usuario_id;
     this.comentario = comentario;
     this.id_pelicula = id_pelicula;
   }
@@ -26,7 +26,7 @@ export class Comentario {
   }
 
   public getUsuario(): Usuario {
-    return this.usuario;
+    return this.usuario_id;
   }
 
   public getComentario(): string {
@@ -37,8 +37,8 @@ export class Comentario {
     return this.id_pelicula;
   }
 
-  public setUsuario(usuario: Usuario): void {
-    this.usuario = usuario;
+  public setUsuario(usuario_id: Usuario): void {
+    this.usuario_id = usuario_id;
   }
 
   public setComentario(comentario: string): void {

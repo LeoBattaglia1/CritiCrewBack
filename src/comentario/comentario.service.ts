@@ -1,25 +1,35 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, FindOneOptions } from 'typeorm';
+import { Repository} from 'typeorm';
 import { Comentario } from './entities/comentario.entity';
-import { Usuario } from 'src/usuario/entities/usuario.entity';
+import { UsuarioService } from 'src/usuario/usuario.service';
+import { CreateComentarioDto } from './dto/create-comentario.dto';
 
 @Injectable()
 export class ComentarioService {
   constructor(
     @InjectRepository(Comentario)
-    private readonly comentarioRepository: Repository<Comentario>,
+    private readonly ComentarioRepository: Repository<Comentario>,
+    private UsuarioService: UsuarioService,
   ) {}
 
 
 
-
-  async create(usuario: Usuario, comentario: string, id_pelicula: number): Promise<Comentario> {
-    const nuevocomentario = new Comentario(usuario, comentario, id_pelicula);
-    return this.comentarioRepository.save(nuevocomentario);
+  async create(createComentarioDto: CreateComentarioDto) {
+    const usuario = await this.UsuarioService.getUsuarioById(createComentarioDto.usuario_id);
+  
+    if (!usuario) {
+      throw new NotFoundException("El usuario no existe");
+    }
+  //esta linea de codigo fue copiada de chatGPT para que compile 
+    const nuevoComentario = new Comentario(usuario, createComentarioDto.comentario, createComentarioDto.id_pelicula);
+  
+    return this.ComentarioRepository.save(nuevoComentario);
   }
 
-  async getAllComentario(): Promise<Comentario[]> {
+ 
+
+ /*  async getAllComentario(): Promise<Comentario[]> {
     return this.comentarioRepository.find();
   }
 
@@ -51,7 +61,7 @@ export class ComentarioService {
 
   remove(id: number) {
     return `This action removes a #${id} comentario`;
-  }
+  } */
 }
 
 

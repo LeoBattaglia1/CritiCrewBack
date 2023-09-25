@@ -7,7 +7,7 @@ import { CreatePuntuacionDto } from './dto/create-puntuacion.dto';
 export class PuntuacionController {
   constructor(private readonly puntuacionService: PuntuacionService) {}
 
-
+  @Post()
   async crearPuntuacion(@Body() createPuntuacionDto: CreatePuntuacionDto) {
     const nuevaPuntuacion = await this.puntuacionService.create(createPuntuacionDto);
     return nuevaPuntuacion;
