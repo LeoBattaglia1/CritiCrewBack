@@ -2,22 +2,30 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, FindOneOptions } from 'typeorm';
 import { Puntuacion } from './entities/puntuacion.entity';
-import { Usuario } from 'src/usuario/entities/usuario.entity';
-
+import { CreatePuntuacionDto } from './dto/create-puntuacion.dto';
+import { UsuarioService } from 'src/usuario/usuario.service';
 @Injectable()
 export class PuntuacionService {
   constructor(
     @InjectRepository(Puntuacion)
     private readonly PuntuacionRepository: Repository<Puntuacion>,
+    private UsuarioService: UsuarioService,
   ) {}
 
 
 
-
-  async create(usuario: Usuario, puntuacion: number, id_pelicula: number): Promise<Puntuacion> {
-    const nuevoPuntuacion = new Puntuacion(usuario, puntuacion, id_pelicula);
+  async create(createPuntuacionDto: CreatePuntuacionDto) {
+    const usuario = await this.UsuarioService.getUsuarioById(createPuntuacionDto.idUsuario);
+  
+    if (!usuario) {
+      throw new NotFoundException("El usuario no existe");
+    }
+  //copiada de chatGPT para que compile
+    const nuevoPuntuacion = new Puntuacion(usuario, createPuntuacionDto.puntuacion, createPuntuacionDto.id_pelicula);
+  
     return this.PuntuacionRepository.save(nuevoPuntuacion);
   }
+  
 
   async getAllPuntuacion(): Promise<Puntuacion[]> {
     return this.PuntuacionRepository.find();
@@ -33,7 +41,7 @@ export class PuntuacionService {
     return Puntuacion;
   }
 
-  async update(id: number, usuario: Usuario, puntuacion: number, id_pelicula: number): Promise<Puntuacion> {
+ /*  async update(id: number, usuario: Usuario, puntuacion: number, id_pelicula: number): Promise<Puntuacion> {
     const criterio : FindOneOptions = { where: { id: id } };
     const puntuaciones = await this.PuntuacionRepository.findOne(criterio);
 
@@ -51,5 +59,5 @@ export class PuntuacionService {
 
   remove(id: number) {
     return `This action removes a #${id} puntuacion`;
-  }
+  } */
 }
