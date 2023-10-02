@@ -2,6 +2,10 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, FindOneOptions } from 'typeorm';
 import { Usuario } from './entities/usuario.entity';
+import { CreateDecoratorOptions } from '@nestjs/core';
+import { CreateUsuarioDto } from './dto/create-usuario.dto';
+import { GeneroService } from 'src/genero/genero.service';
+import { Genero } from 'src/genero/entities/genero.entity';
 
 
 @Injectable()
@@ -9,12 +13,18 @@ export class UsuarioService {
   constructor(
     @InjectRepository(Usuario)
     private readonly usuarioRepository: Repository<Usuario>,
+    private generoService: GeneroService,
   ) {}
 
 
-  async create(nombre: string, correo: string, contraseña: string): Promise<Usuario> {
-    const nuevoUsuario = new Usuario(nombre, correo, contraseña);
+  async create(newUsuario : CreateUsuarioDto): Promise<Usuario> {
+    const nuevoUsuario = new Usuario(newUsuario.nombre, newUsuario.correo, newUsuario.contraseña);
+    const generos  = await this.generoService.findDyId(newUsuario.genero)
+   
+    nuevoUsuario.generos = generos;
+    console.log(generos);
     return this.usuarioRepository.save(nuevoUsuario);
+
   }
 
   async getAllUsuarios(): Promise<Usuario[]> {
@@ -52,9 +62,9 @@ async remove(id: number): Promise<string> {
 
   if (!usuario) {
     throw new NotFoundException(`Usuario con ID ${id} no encontrada`);
-  }else{
+  }
     await this.usuarioRepository.remove(usuario);
     return 'Usuario eliminada correctamente';
   }     
 }
-}
+

@@ -24,7 +24,17 @@ export class Usuario {
   puntuacion: Puntuacion[]; 
 
   @ManyToMany(() => Genero)
-  @JoinTable()
+  @JoinTable({
+    name: "usuarios_generos", // table name for the junction table of this relation
+    joinColumn: {
+        name: "usuario_id",
+        referencedColumnName: "id"
+    },
+    inverseJoinColumn: {
+        name: "genero_id",
+        referencedColumnName: "id"
+    }
+})
   generos: Genero[];
 
   constructor(nombre: string, correo: string, contraseña: string) {

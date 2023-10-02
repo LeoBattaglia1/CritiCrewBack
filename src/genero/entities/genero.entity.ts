@@ -13,7 +13,16 @@ export class Genero {
   private idGenero: number;
 
   @ManyToMany(() => Usuario)
-  @JoinTable()
+  @JoinTable({
+    name: "usuarios_generos", // table name for the junction table of this relation
+    joinColumn: {
+        name: "genero_id",
+        referencedColumnName: "id"
+    },
+    inverseJoinColumn: {
+        name: "usuario_id",
+        referencedColumnName: "id"
+    } })
   private usuarios: Usuario[];
 
   constructor(genero: string, idGenero: number) {
