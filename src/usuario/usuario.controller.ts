@@ -25,10 +25,10 @@ export class UsuarioController {
   }
 
   @Put(':id')
-  async actualizarUsuario(@Param('id') id: number, @Body('nombre') nombre: string, @Body('correo') correo: string, @Body('contraseña') contraseña: string) {
-      const usuarioActualizado = await this.usuarioService.update(id, nombre, correo, contraseña);
-      return usuarioActualizado;
-  }
+async actualizarUsuario(@Param('id') id: number, @Body() usuarioDto: CreateUsuarioDto) {
+  const usuarioActualizado = await this.usuarioService.update(id, usuarioDto);
+  return usuarioActualizado;
+}
 
   @Delete(':id')
   remove(@Param('id') id: number) {

@@ -4,13 +4,13 @@ import { Usuario } from '../../usuario/entities/usuario.entity';
 @Entity('generos')
 export class Genero {
   @PrimaryGeneratedColumn()
-  private id: number;
+  public id: number;
 
   @Column()
-  private genero: string;
+  public genero: string;
 
   @Column()
-  private idGenero: number;
+  public idGenero: number;
 
   @ManyToMany(() => Usuario)
   @JoinTable({

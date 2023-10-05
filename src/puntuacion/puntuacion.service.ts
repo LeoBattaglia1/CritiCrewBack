@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, FindOneOptions } from 'typeorm';
 import { Puntuacion } from './entities/puntuacion.entity';
@@ -22,7 +22,12 @@ export class PuntuacionService {
     if (!usuario) {
       throw new NotFoundException("El usuario no existe");
     }
-  //copiada de chatGPT para que compile
+
+    const puntuacion = createPuntuacionDto.puntuacion;
+    if (!Number.isInteger(puntuacion) || puntuacion < 0 || puntuacion > 10) {
+      throw new BadRequestException("La puntuación debe ser un número entero entre 0 y 10");
+    }
+    
     const nuevoPuntuacion = new Puntuacion(usuario, createPuntuacionDto.puntuacion, createPuntuacionDto.id_pelicula);
   
     return this.PuntuacionRepository.save(nuevoPuntuacion);
@@ -31,23 +36,25 @@ export class PuntuacionService {
 
   async getAllPuntuacion(): Promise<Puntuacion[]> {
     return this.PuntuacionRepository.find({
-      relations: ["usuario"]
+      select: ["puntuacion", "id_pelicula"]
     });
  
   }
 
-  async getPuntuacionById(id: number): Promise<Puntuacion> {
-    const criterio : FindOneOptions = { where: { id: id } };
-    const Puntuacion = await this.PuntuacionRepository.findOne(criterio);
-  
-    if (!Puntuacion) {
-      throw new NotFoundException(`Puntuacion con ID ${id} de usuario no encontrado`);
+  async getPuntuacionByIdPelicula(id: number): Promise<Puntuacion[]> {
+    const Puntuacion = await this.PuntuacionRepository.find({ 
+      where: { id_pelicula: id }, 
+      select: ["puntuacion"] 
+    });
+    if (Puntuacion.length==0) {
+      throw new NotFoundException(`Puntuacion con ID ${id} de pelicula no encontrado`);
     }
+    
     return Puntuacion;
   }
 
   
-  async update(id: number, usuario_id: number, puntuacion: number, id_pelicula: number): Promise<Puntuacion> {
+  async update(id: number, puntuacion: number): Promise<Puntuacion> {
     const criterioUsuario : FindOneOptions = { where: { id: id } };
     const usuario = await this.PuntuacionRepository.findOne(criterioUsuario);
 
@@ -55,9 +62,11 @@ export class PuntuacionService {
       throw new NotFoundException(`Puntuacion con ID ${id} no encontrado`);
     }
 
-    usuario.setPuntuacion(puntuacion);
-  
+    if (!Number.isInteger(puntuacion) || puntuacion < 0 || puntuacion > 10) {
+      throw new BadRequestException("La puntuación debe ser un número entero entre 0 y 10");
+    }
 
+    usuario.setPuntuacion(puntuacion);
     return this.PuntuacionRepository.save(usuario);
 }
 

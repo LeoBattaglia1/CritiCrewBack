@@ -21,14 +21,16 @@ export class ComentarioController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: number) {
-    return this.comentarioService.getComentarioById(id);
+  find(@Param('id') id: number) {
+    return this.comentarioService.getComentarioByIdPelicula(id);
   }
+
+
 
   
   @Put(':id')
-  async actualizarcomentario(@Param('id') id: number, @Body('usuario_id') usuario_id: number, @Body('comentario') comentario: string, @Body('id_pelicula') id_pelicula: number) {
-      const comentarioActualizado = await this.comentarioService.update(id, usuario_id, comentario, id_pelicula);
+  async actualizarcomentario(@Param('id') id: number, @Body('comentario') comentario: string) {
+      const comentarioActualizado = await this.comentarioService.update(id, comentario);
       return comentarioActualizado;
   }
  

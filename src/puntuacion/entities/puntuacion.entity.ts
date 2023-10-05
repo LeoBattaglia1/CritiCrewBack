@@ -7,11 +7,11 @@ export class Puntuacion {
   private id: number;
 
   @ManyToOne(() => Usuario, usuario => usuario.puntuacion)
-  @JoinColumn({ name: 'usuario_id' }) // linea de chatgpt
+  @JoinColumn({ name: 'usuario_id' }) 
   public usuario: Usuario;
   
   @Column()
-  private usuario_id: number;
+  public usuario_id: number;
   
 
   @Column()

@@ -11,10 +11,10 @@ export class Comentario {
   public usuario: Usuario;
 
   @Column()
-  private comentario: string;
+  public comentario: string;
 
   @Column()
-  private id_pelicula: number;
+  public id_pelicula: number;
 
   constructor(usuario: Usuario, comentario: string, id_pelicula?: number) {
     this.usuario = usuario;

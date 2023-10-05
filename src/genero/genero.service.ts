@@ -21,8 +21,12 @@ export class GeneroService {
   }
 
   async findOne(id: number) {
-    const criterio : FindOneOptions = { where: { id: id } };
+    const criterio : FindOneOptions = { 
+      where: { id: id }, 
+      select:["genero"]
+};
     const Comentario = await this.GeneroRepository.findOne(criterio);
+    
     return Comentario
   }
 

@@ -31,23 +31,24 @@ export class ComentarioService {
 
   async getAllComentario(): Promise<Comentario[]> {
     return this.ComentarioRepository.find({
-      relations: ["usuario"]
+      select: ["comentario", "id_pelicula"]
     });
  
   }
 
-  async getComentarioById(id: number): Promise<Comentario> {
-    const criterio : FindOneOptions = { where: { id: id } };
-    const Comentario = await this.ComentarioRepository.findOne(criterio);
-  
-    if (!Comentario) {
-      throw new NotFoundException(`Comentario con ID ${id} de usuario no encontrado`);
+  async getComentarioByIdPelicula(id: number): Promise<Comentario[]> {
+    const Comentario = await this.ComentarioRepository.find({ 
+      where: { id_pelicula: id }, 
+      select: ["comentario"] 
+    });
+    if (Comentario.length==0) {
+      throw new NotFoundException(`Comentario con ID ${id} de pelicula no encontrado`);
     }
     return Comentario;
   }
 
   
-  async update(id: number, usuario_id: number, Comentario: string, id_pelicula: number): Promise<Comentario> {
+  async update(id: number, Comentario: string): Promise<Comentario> {
     const criterioUsuario : FindOneOptions = { where: { id: id } };
     const usuario = await this.ComentarioRepository.findOne(criterioUsuario);
 
@@ -68,7 +69,7 @@ async remove(id: number): Promise<string> {
   const Comentario = await this.ComentarioRepository.findOne(criterio);
 
   if (!Comentario) {
-    throw new NotFoundException(`Puntuación con ID ${id} no encontrada`);
+    throw new NotFoundException(`Comentario con ID ${id} no encontrada`);
   }else{
     await this.ComentarioRepository.remove(Comentario);
     return 'Comentario eliminada correctamente';

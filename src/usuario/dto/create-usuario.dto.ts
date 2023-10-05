@@ -1,6 +1,15 @@
+import { IsNotEmpty, IsEmail } from 'class-validator';
+
 export class CreateUsuarioDto {
-    readonly nombre : string;
-    readonly correo : string;
-    readonly contraseña : string;
-    readonly genero : Array<number>;
+  @IsNotEmpty()
+  readonly nombre: string;
+
+  @IsNotEmpty()
+  @IsEmail()
+  readonly correo: string;
+
+  readonly contraseña: string;
+  readonly genero : Array<number>;
 }
+
+   

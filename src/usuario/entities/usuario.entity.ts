@@ -6,16 +6,16 @@ import { Puntuacion } from '../../puntuacion/entities/puntuacion.entity';
 @Entity('usuarios')
 export class Usuario {
   @PrimaryGeneratedColumn()
-  private id: number;
+  public id: number;
 
   @Column()
-  private nombre: string;
+  public nombre: string;
 
   @Column()
-  private correo: string;
+  public correo: string;
 
   @Column()
-  private contraseña: string;
+  public contraseña: string;
 
   @OneToMany(() => Comentario, comentario => comentario.usuario)
   comentarios: Comentario[];
@@ -67,5 +67,9 @@ export class Usuario {
 
   public setContraseña(contraseña: string): void {
     this.contraseña = contraseña;
+  }
+
+  public setGenero(genero: Genero[]): void {
+    this.generos = genero;
   }
 }

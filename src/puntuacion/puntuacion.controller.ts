@@ -22,14 +22,14 @@ export class PuntuacionController {
 
   @Get(':id')
   findOne(@Param('id') id: number) {
-    return this.puntuacionService.getPuntuacionById(id);
+    return this.puntuacionService.getPuntuacionByIdPelicula(id);
   }
 
   
  
   @Put(':id')
-  async actualizarUsuario(@Param('id') id: number, @Body('usuario_id') usuario_id: number, @Body('puntuacion') puntuacion: number, @Body('id_pelicula') id_pelicula: number) {
-    const usuarioActualizado = await this.puntuacionService.update(id, usuario_id, puntuacion, id_pelicula);
+  async actualizarUsuario(@Param('id') id: number, @Body('puntuacion') puntuacion: number) {
+    const usuarioActualizado = await this.puntuacionService.update(id, puntuacion);
     return usuarioActualizado;
 }
 
