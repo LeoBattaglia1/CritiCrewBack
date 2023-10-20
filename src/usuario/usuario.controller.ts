@@ -9,9 +9,12 @@ export class UsuarioController {
 
   @Post()
   async crearUsuario(@Body() usuario : CreateUsuarioDto) {
+    console.log("llegaste?")
     const nuevoUsuario = await this.usuarioService.create(usuario);
     return nuevoUsuario;
   }
+
+  
   
 
   @Get()

@@ -62,10 +62,6 @@ export class PuntuacionService {
       throw new NotFoundException(`Puntuacion con ID ${id} no encontrado`);
     }
 
-    if (!Number.isInteger(puntuacion) || puntuacion < 0 || puntuacion > 10) {
-      throw new BadRequestException("La puntuación debe ser un número entero entre 0 y 10");
-    }
-
     usuario.setPuntuacion(puntuacion);
     return this.PuntuacionRepository.save(usuario);
 }
