@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Put, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Put, Delete, UnauthorizedException } from '@nestjs/common';
 import { UsuarioService } from './usuario.service';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 
@@ -9,12 +9,19 @@ export class UsuarioController {
 
   @Post()
   async crearUsuario(@Body() usuario : CreateUsuarioDto) {
-    console.log("llegaste?")
     const nuevoUsuario = await this.usuarioService.create(usuario);
     return nuevoUsuario;
   }
 
+  @Post('autenticar')
+  async autenticarUsuario(@Body() body: { correo: string, contraseña: string }) {
+    const { correo, contraseña } = body;
+    const mensaje = await this.usuarioService.authenticateUsuario(correo, contraseña);
+    return { mensaje };
+  }
   
+  
+
   
 
   @Get()
@@ -23,9 +30,12 @@ export class UsuarioController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: number) {
+  findOneById(@Param('id') id: number) {
     return this.usuarioService.getUsuarioById(id);
   }
+  
+ 
+  
 
   @Put(':id')
 async actualizarUsuario(@Param('id') id: number, @Body() usuarioDto: CreateUsuarioDto) {

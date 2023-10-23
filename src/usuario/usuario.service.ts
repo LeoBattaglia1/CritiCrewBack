@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, FindOneOptions } from 'typeorm';
 import { Usuario } from './entities/usuario.entity';
@@ -55,10 +55,24 @@ export class UsuarioService {
     if (!usuario) {
       throw new NotFoundException(`Usuario con ID ${id} no encontrado`);
     }
-  
     return usuario;
   }
+
+
+  async authenticateUsuario(correo: string, contraseña: string): Promise<number> {
+    const usuario = await this.usuarioRepository.findOne({ where: { correo } });
   
+    if (!usuario) {
+      throw new NotFoundException(`Usuario con correo ${correo} no encontrado`);
+    }
+  
+    if (contraseña !== usuario.contraseña) {
+      throw new BadRequestException('Contraseña incorrecta');
+    }
+    return usuario.id;
+  }
+  
+ 
   
   async update(id: number, usuarioDto: CreateUsuarioDto): Promise<Usuario> {
     const criterio : FindOneOptions = { where: { id: id } };
@@ -100,6 +114,6 @@ async remove(id: number): Promise<string> {
   }  
   
   
-  
+
 }
 
