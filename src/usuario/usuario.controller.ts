@@ -17,13 +17,10 @@ export class UsuarioController {
   async autenticarUsuario(@Body() body: { correo: string, contraseña: string }) {
     const { correo, contraseña } = body;
     const mensaje = await this.usuarioService.authenticateUsuario(correo, contraseña);
-    return { mensaje };
+    return mensaje ;
   }
   
   
-
-  
-
   @Get()
   findAll() {
     return this.usuarioService.getAllUsuarios();
