@@ -16,7 +16,7 @@ export class Comentario {
   @Column()
   public id_pelicula: number;
 
-  constructor(usuario: Usuario, comentario: string, id_pelicula?: number) {
+  constructor(usuario: Usuario, comentario: string, id_pelicula: number) {
     this.usuario = usuario;
     this.comentario = comentario;
     this.id_pelicula = id_pelicula;
@@ -34,7 +34,7 @@ export class Comentario {
     return this.comentario;
   }
 
-  public getIdPelicula(): number | undefined {
+  public getIdPelicula(): number {
     return this.id_pelicula;
   }
 

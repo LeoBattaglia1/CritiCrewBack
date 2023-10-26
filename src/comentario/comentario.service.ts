@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, FindOneOptions } from 'typeorm';
 import { Comentario } from './entities/comentario.entity';
@@ -17,15 +17,14 @@ export class ComentarioService {
 
 
   async create(createComentarioDto: CreateComentarioDto) {
-    const usuario = await this.UsuarioService.getUsuarioById(createComentarioDto.usuario_id);
-  
-    if (!usuario) {
-      throw new NotFoundException("El usuario no existe");
+    if (createComentarioDto.usuario_id === null) {
+      throw new BadRequestException("Primero debes iniciar seccion");
     }
-
-    const nuevoComentario = new Comentario(usuario, createComentarioDto.comentario, createComentarioDto.id_pelicula);
-  
+    if (createComentarioDto.comentario){
+      const usuario = await this.UsuarioService.getUsuarioById(createComentarioDto.usuario_id);
+      const nuevoComentario = new Comentario(usuario, createComentarioDto.comentario, createComentarioDto.id_pelicula);
     return this.ComentarioRepository.save(nuevoComentario);
+    }
   }
   
 

@@ -38,7 +38,7 @@ export class Puntuacion {
     return this.puntuacion;
   }
 
-  public getIdPelicula(): number | undefined {
+  public getIdPelicula(): number {
     return this.id_pelicula;
   }
 

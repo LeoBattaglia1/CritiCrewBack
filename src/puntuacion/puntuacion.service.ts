@@ -17,21 +17,28 @@ export class PuntuacionService {
 
 
   async create(createPuntuacionDto: CreatePuntuacionDto) {
+    if (createPuntuacionDto.usuario_id === null) {
+      throw new BadRequestException("Primero debes iniciar seccion");
+    }
     const usuario = await this.UsuarioService.getUsuarioById(createPuntuacionDto.usuario_id);
-  
-    if (!usuario) {
-      throw new NotFoundException("El usuario no existe");
-    }
-
-    const puntuacion = createPuntuacionDto.puntuacion;
-    if (!Number.isInteger(puntuacion) || puntuacion < 0 || puntuacion > 10) {
-      throw new BadRequestException("La puntuación debe ser un número entero entre 0 y 10");
-    }
     
+/*   aun no se como hacer para que un usuario no pueda puntuar mas de una vez
+
+    const puntuacionExistente = await this.PuntuacionRepository.findOne({
+      where: {
+        usuario: usuario,
+        id_pelicula: createPuntuacionDto.id_pelicula,
+      }
+    });
+    if (puntuacionExistente) {
+      throw new BadRequestException("Ya has puntuado esta película");
+    } */
+  
     const nuevoPuntuacion = new Puntuacion(usuario, createPuntuacionDto.puntuacion, createPuntuacionDto.id_pelicula);
   
     return this.PuntuacionRepository.save(nuevoPuntuacion);
   }
+  
   
 
   async getAllPuntuacion(): Promise<Puntuacion[]> {
