@@ -9,7 +9,5 @@ export class CreateUsuarioDto {
   readonly correo: string;
 
   readonly contraseña: string;
-  readonly genero : Array<number>;
+  readonly genero: Array<number>;
 }
-
-   

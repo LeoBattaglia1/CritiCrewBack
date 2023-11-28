@@ -1,17 +1,23 @@
-import { Controller, Get, Post, Body, Put, Param, Delete } from '@nestjs/common';
-import {ComentarioService } from './comentario.service';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Put,
+  Param,
+  Delete,
+} from '@nestjs/common';
+import { ComentarioService } from './comentario.service';
 import { CreateComentarioDto } from './dto/create-comentario.dto';
-
-
 
 @Controller('comentario')
 export class ComentarioController {
   constructor(private readonly comentarioService: ComentarioService) {}
 
-
   @Post()
   async crearcomentario(@Body() createComentarioDto: CreateComentarioDto) {
-    const nuevacomentario = await this.comentarioService.create(createComentarioDto);
+    const nuevacomentario =
+      await this.comentarioService.create(createComentarioDto);
     return nuevacomentario;
   }
 
@@ -25,17 +31,17 @@ export class ComentarioController {
     return this.comentarioService.getComentarioByIdPelicula(id);
   }
 
-
-
-  
   @Put(':id')
-  async actualizarcomentario(@Param('id') id: number, @Body('comentario') comentario: string) {
-      const comentarioActualizado = await this.comentarioService.update(id, comentario);
-      return comentarioActualizado;
+  async actualizarcomentario(
+    @Param('id') id: number,
+    @Body('comentario') comentario: string,
+  ) {
+    const comentarioActualizado = await this.comentarioService.update(
+      id,
+      comentario,
+    );
+    return comentarioActualizado;
   }
- 
-
- 
 
   @Delete(':id')
   remove(@Param('id') id: number) {

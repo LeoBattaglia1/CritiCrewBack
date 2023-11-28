@@ -1,12 +1,18 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
-import { Usuario } from "../../usuario/entities/usuario.entity";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
+import { Usuario } from '../../usuario/entities/usuario.entity';
 
 @Entity('comentarios')
 export class Comentario {
   @PrimaryGeneratedColumn()
   private id: number;
 
-  @ManyToOne(() => Usuario, usuario => usuario.comentarios)
+  @ManyToOne(() => Usuario, (usuario) => usuario.comentarios)
   @JoinColumn({ name: 'usuario_id' }) // linea de chatgpt
   public usuario: Usuario;
 

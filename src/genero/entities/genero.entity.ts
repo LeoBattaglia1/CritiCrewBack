@@ -1,4 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToMany,
+  JoinTable,
+} from 'typeorm';
 import { Usuario } from '../../usuario/entities/usuario.entity';
 
 @Entity('generos')
@@ -14,15 +20,16 @@ export class Genero {
 
   @ManyToMany(() => Usuario)
   @JoinTable({
-    name: "usuarios_generos", // table name for the junction table of this relation
+    name: 'usuarios_generos', // table name for the junction table of this relation
     joinColumn: {
-        name: "genero_id",
-        referencedColumnName: "id"
+      name: 'genero_id',
+      referencedColumnName: 'id',
     },
     inverseJoinColumn: {
-        name: "usuario_id",
-        referencedColumnName: "id"
-    } })
+      name: 'usuario_id',
+      referencedColumnName: 'id',
+    },
+  })
   private usuarios: Usuario[];
 
   constructor(genero: string, idGenero: number) {

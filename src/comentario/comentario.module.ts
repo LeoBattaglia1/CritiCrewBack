@@ -7,9 +7,7 @@ import { ComentarioService } from './comentario.service';
 import { UsuarioModule } from 'src/usuario/usuario.module';
 
 @Module({
-  imports : [ 
-    TypeOrmModule.forFeature([ Comentario, Usuario ]), UsuarioModule,
-  ],
+  imports: [TypeOrmModule.forFeature([Comentario, Usuario]), UsuarioModule],
   controllers: [ComentarioController],
   providers: [ComentarioService],
 })

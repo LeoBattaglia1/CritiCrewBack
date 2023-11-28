@@ -1,7 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToMany, JoinTable } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  ManyToMany,
+  JoinTable,
+} from 'typeorm';
 import { Comentario } from '../../comentario/entities/comentario.entity';
 import { Genero } from '../../genero/entities/genero.entity';
-import { Puntuacion } from '../../puntuacion/entities/puntuacion.entity'; 
+import { Puntuacion } from '../../puntuacion/entities/puntuacion.entity';
 
 @Entity('usuarios')
 export class Usuario {
@@ -17,24 +24,24 @@ export class Usuario {
   @Column()
   public contraseña: string;
 
-  @OneToMany(() => Comentario, comentario => comentario.usuario)
+  @OneToMany(() => Comentario, (comentario) => comentario.usuario)
   comentarios: Comentario[];
 
-  @OneToMany(() => Puntuacion, puntuacion => puntuacion.usuario) 
-  puntuacion: Puntuacion[]; 
+  @OneToMany(() => Puntuacion, (puntuacion) => puntuacion.usuario)
+  puntuacion: Puntuacion[];
 
   @ManyToMany(() => Genero)
   @JoinTable({
-    name: "usuarios_generos", // table name for the junction table of this relation
+    name: 'usuarios_generos', // table name for the junction table of this relation
     joinColumn: {
-        name: "usuario_id",
-        referencedColumnName: "id"
+      name: 'usuario_id',
+      referencedColumnName: 'id',
     },
     inverseJoinColumn: {
-        name: "genero_id",
-        referencedColumnName: "id"
-    }
-})
+      name: 'genero_id',
+      referencedColumnName: 'id',
+    },
+  })
   generos: Genero[];
 
   constructor(nombre: string, correo: string, contraseña: string) {
@@ -43,7 +50,6 @@ export class Usuario {
     this.contraseña = contraseña;
   }
 
-  
   public getNombre(): string {
     return this.nombre;
   }
@@ -56,7 +62,6 @@ export class Usuario {
     return this.contraseña;
   }
 
-  
   public setNombre(nombre: string): void {
     this.nombre = nombre;
   }

@@ -10,8 +10,7 @@ export class GeneroService {
   constructor(
     @InjectRepository(Genero)
     private readonly GeneroRepository: Repository<Genero>,
-    
-) {}
+  ) {}
   create(createGeneroDto: CreateGeneroDto) {
     return 'This action adds a new genero';
   }
@@ -21,21 +20,20 @@ export class GeneroService {
   }
 
   async findOne(id: number) {
-    const criterio : FindOneOptions = { 
-      where: { id: id }, 
-      select:["genero"]
-};
+    const criterio: FindOneOptions = {
+      where: { id: id },
+      select: ['genero'],
+    };
     const Comentario = await this.GeneroRepository.findOne(criterio);
-    
-    return Comentario
+
+    return Comentario;
   }
 
   async findDyId(id: Array<number>) {
-    const criterio : FindManyOptions = { where: { id: In(id) } };
+    const criterio: FindManyOptions = { where: { id: In(id) } };
     const Comentario = await this.GeneroRepository.find(criterio);
-    return Comentario
+    return Comentario;
   }
-
 
   remove(id: number) {
     return `This action removes a #${id} genero`;

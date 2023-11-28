@@ -7,10 +7,8 @@ import { PuntuacionService } from './puntuacion.service';
 import { UsuarioModule } from 'src/usuario/usuario.module';
 
 @Module({
-  imports : [ 
-    TypeOrmModule.forFeature([ Puntuacion, Usuario ]), UsuarioModule,
-  ],
+  imports: [TypeOrmModule.forFeature([Puntuacion, Usuario]), UsuarioModule],
   controllers: [PuntuacionController],
-  providers: [PuntuacionService]
+  providers: [PuntuacionService],
 })
 export class PuntuacionModule {}

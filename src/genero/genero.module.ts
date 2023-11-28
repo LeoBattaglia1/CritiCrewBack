@@ -4,11 +4,10 @@ import { GeneroController } from './genero.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Genero } from './entities/genero.entity';
 
-
 @Module({
-  imports : [ TypeOrmModule.forFeature([Genero ])], 
+  imports: [TypeOrmModule.forFeature([Genero])],
   controllers: [GeneroController],
   providers: [GeneroService],
-  exports: [GeneroService]
+  exports: [GeneroService],
 })
 export class GeneroModule {}

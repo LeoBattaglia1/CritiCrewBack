@@ -1,18 +1,23 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
-import { Usuario } from "../../usuario/entities/usuario.entity";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
+import { Usuario } from '../../usuario/entities/usuario.entity';
 
 @Entity('puntuacion')
 export class Puntuacion {
   @PrimaryGeneratedColumn()
   private id: number;
 
-  @ManyToOne(() => Usuario, usuario => usuario.puntuacion)
-  @JoinColumn({ name: 'usuario_id' }) 
+  @ManyToOne(() => Usuario, (usuario) => usuario.puntuacion)
+  @JoinColumn({ name: 'usuario_id' })
   public usuario: Usuario;
-  
+
   @Column()
   public usuario_id: number;
-  
 
   @Column()
   public puntuacion: number;
@@ -49,7 +54,7 @@ export class Puntuacion {
   public setUsuario(usuario: Usuario): void {
     this.usuario = usuario;
   }
-  
+
   public setPuntuacion(puntuacion: number): void {
     this.puntuacion = puntuacion;
   }
